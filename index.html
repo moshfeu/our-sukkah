@@ -8,6 +8,7 @@
   body { margin: 0; overflow: hidden; font-family: sans-serif; background: #eef3f7; }
   #ui { position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.92);
         padding: 12px; border-radius: 8px; width: 340px; }
+  #ui { max-height: 80vh; overflow-y: auto; color: #1e2a38; }
   #ui input[type=range] { width: 100%; margin-top: 8px; }
   #inv { font-size: 13px; margin-top: 8px; white-space: pre-line; }
   #summaryBtn { position: absolute; bottom: 10px; left: 10px; width: 36px; height: 36px;
@@ -15,11 +16,11 @@
                 font: bold 20px serif; font-style: italic; cursor: pointer;
                 box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
   #summaryBtn:hover { background: #2c5282; }
-  #layers { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.92);
-            padding: 10px 14px; border-radius: 8px; font-size: 14px; line-height: 1.8; color: #1e2a38; }
+  #layers { margin-top: 10px; padding-top: 8px; border-top: 1px solid #cdd5df;
+            font-size: 14px; line-height: 1.8; color: #1e2a38; }
   @media (max-width: 600px) {
     #ui { width: auto; right: 10px; padding: 8px; font-size: 12px; }
-    #layers { top: 8px; right: 8px; padding: 6px 8px; font-size: 12px; line-height: 1.5; }
+    #layers { font-size: 12px; line-height: 1.5; }
     #summaryBtn { width: 32px; height: 32px; font-size: 17px; bottom: 12px; left: 12px; }
   }
 </style>
@@ -29,8 +30,6 @@
 <div id="ui" style="display: none;">
   <b>Our Sukkah - assembly (4D = 3D + build time)</b><br>
   <div id="inv"></div>
-</div>
-
 <div id="layers">
   <label><input type="checkbox" data-cat="walls" checked> Wall panels</label><br>
   <label><input type="checkbox" data-cat="lower" checked> Lower slats</label><br>
@@ -40,6 +39,7 @@
   <label><input type="checkbox" data-cat="wallS" checked> South wall</label><br>
   <label><input type="checkbox" data-cat="wallE" checked> East wall</label><br>
   <label><input type="checkbox" data-cat="wallW" checked> West wall</label>
+</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
