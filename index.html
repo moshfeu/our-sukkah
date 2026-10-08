@@ -63,7 +63,7 @@ for (let i = 0; i < 3; i++) add(-200, 120 - 80 * i, -200, 40 - 80 * i, 'West');
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xeef3f7);
 const camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 1, 5000);
-camera.position.set(550, 380, 550);
+camera.position.set(-430, 360, 330);   // initial view: from the south-west, looking down at the Sukkah
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
