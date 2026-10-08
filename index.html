@@ -215,6 +215,35 @@ const parts = segs.map((s, k) => {
   return { mesh, joint, k };
 });
 
+// Ground brackets at the bottom of panels 1 and 15 (code indices 15 and 13), shaped |__| and
+// 10cm wide. The wall stands in the outer slot; a rectangular paving stone sits in the inner slot,
+// inside the Sukkah.
+[13, 15].forEach(c => {
+  const s = segs[c];
+  const cx = (s.ax + s.bx) / 2, cz = (s.az + s.bz) / 2;
+  const theta = Math.atan2(-(s.bz - s.az) / W, (s.bx - s.ax) / W);
+  const bracket = new THREE.Group();
+  // Placed at the door side of each panel: 5cm from the door edge (z = -40 and z = +40)
+  bracket.position.set(cx, 0, c === 15 ? -45 : 45);
+  bracket.rotation.y = theta;
+  // Local +z points into the Sukkah for the west wall, -z points outside
+  const base = new THREE.Mesh(new THREE.BoxGeometry(10, 1, 10), metalMat);
+  base.position.set(0, 0.5, 0);
+  bracket.add(base);
+  [-4.5, 4.5].forEach(z => {
+    const leg = new THREE.Mesh(new THREE.BoxGeometry(10, 8, 1), metalMat);
+    leg.position.set(0, 4.5, z);
+    bracket.add(leg);
+  });
+  const stone = new THREE.Mesh(
+    new THREE.BoxGeometry(10, 5, 2.5),
+    new THREE.MeshLambertMaterial({ color: 0xb9b2a0 })
+  );
+  stone.position.set(0, 2.5, 2.75);
+  bracket.add(stone);
+  scene.add(bracket);
+});
+
 setCat('lower');
 // Roof slat (part of the s'chach ladder): one 5cm slat running north-south, from
 // panel 6 (north) to panel 10 (south). It sits on the west edge of those panels
@@ -363,10 +392,12 @@ TOP_SLAT_XS.forEach(x => {
 setCat(null);
 // Panel numbers: 1 = west wall, north of door; then clockwise; 15 = west south of door; 16 = door
 function panelNumber(c) {
-  if (c === 15) return 1;
-  if (c === 13) return 15;
-  if (c === 14) return 16;
-  return c + 2;
+  if (c === 13) return 1;          // west wall, south of the door
+  if (c === 15) return 15;         // west wall, north of the door
+  if (c === 14) return 16;         // door
+  if (c >= 8) return 2 + (12 - c); // south wall, east to west
+  if (c >= 5) return 7 + (7 - c);  // east wall, south to north
+  return 10 + (4 - c);             // north wall, east to west
 }
 segs.forEach((s, c) => {
   const cv = document.createElement('canvas');
